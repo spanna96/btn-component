@@ -31,4 +31,5 @@ ButtonWithStandardProps.args = {
   onMouseEnter: () => {
     alert("You are caught!");
   },
+  className: "extra-large visible button"
 };

@@ -1,14 +1,16 @@
 import React, { CSSProperties, FC, MouseEventHandler } from "react";
+
 import "./Button.css";
 
 export interface Props {
   onClick: MouseEventHandler<HTMLButtonElement>;
   color?: string;
   style?: CSSProperties;
+  className?: string;
   size?: "small" | "medium" | "large";
   variant?: "text" | "contained" | "outlined";
   disabled?: boolean;
-  children?: JSX.Element
+  children?: JSX.Element;
 }
 
 const defaultProps: Partial<Props> = {
@@ -21,6 +23,7 @@ const defaultProps: Partial<Props> = {
 
 const Button: FC<Props> = ({
   style,
+  className,
   size,
   variant,
   color,
@@ -34,16 +37,14 @@ const Button: FC<Props> = ({
   } as React.CSSProperties;
 
   return (
-    <div>
-      <button
-        disabled={disabled}
-        style={customStyle}
-        className={`button ${size} ${variant}`}
-        {...props}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      disabled={disabled}
+      style={customStyle}
+      className={`button ${size} ${variant} ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
   );
 };
 
