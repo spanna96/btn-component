@@ -1,4 +1,10 @@
-import React, { CSSProperties, FC, MouseEventHandler } from "react";
+import React, {
+  createContext,
+  useContext,
+  CSSProperties,
+  FC,
+  MouseEventHandler,
+} from "react";
 
 import "./Button.css";
 
@@ -10,7 +16,12 @@ export interface Props {
   size?: "small" | "medium" | "large";
   variant?: "text" | "contained" | "outlined";
   disabled?: boolean;
-  children?: JSX.Element;
+  children?: JSX.Element | string;
+  classesContext?: React.Context<ClassesContext>;
+}
+
+interface ClassesContext {
+  classes: string;
 }
 
 const defaultProps: Partial<Props> = {
@@ -19,6 +30,8 @@ const defaultProps: Partial<Props> = {
   variant: "contained",
   color: "#1976d2",
   disabled: false,
+  className: "",
+  classesContext: createContext({ classes: "" }),
 };
 
 const Button: FC<Props> = ({
@@ -29,6 +42,7 @@ const Button: FC<Props> = ({
   color,
   disabled,
   children,
+  classesContext,
   ...props
 }) => {
   const customStyle = {
@@ -36,11 +50,15 @@ const Button: FC<Props> = ({
     ...style,
   } as React.CSSProperties;
 
+  const buttonContext = useContext(
+    classesContext as React.Context<ClassesContext>
+  );
+
   return (
     <button
       disabled={disabled}
       style={customStyle}
-      className={`button ${size} ${variant} ${className}`}
+      className={`button ${size} ${variant} ${className} ${buttonContext?.classes}`}
       {...props}
     >
       {children}
